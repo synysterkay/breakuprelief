@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro check && astro build && node scripts/validate-site.mjs",
     "preview": "astro preview",
-    "generate:article": "node scripts/generate-daily-articles.mjs"
+    "generate:article": "node scripts/generate-daily-articles.mjs",
+    "submit:indexnow": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.4",

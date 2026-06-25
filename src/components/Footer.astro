@@ -1,0 +1,14 @@
+---
+import { locales, localePath, site } from '../data/site';
+---
+<footer class="footer">
+  <div class="shell">
+    <strong>{site.name}</strong>
+    <p>Support for breakup recovery. Not emergency care or a replacement for a licensed therapist.</p>
+    <div class="language-list" aria-label="Languages">
+      {locales.map((locale) => (
+        <a class="pill" href={localePath(locale.tag, '/')}>{locale.nativeName}</a>
+      ))}
+    </div>
+  </div>
+</footer>

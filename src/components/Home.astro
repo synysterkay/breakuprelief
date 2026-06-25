@@ -1,0 +1,85 @@
+---
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { getCollection } from 'astro:content';
+import { homeCopy, localePath, locales, site, type LocaleTag } from '../data/site';
+
+const { lang = 'en' } = Astro.props as { lang?: LocaleTag };
+const copy = homeCopy[lang];
+const articles = (await getCollection('blog'))
+  .filter((entry) => entry.data.lang === lang)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+---
+<Header lang={lang} />
+<main>
+  <section class="shell hero">
+    <div>
+      <div class="eyebrow">{copy.eyebrow}</div>
+      <h1>{copy.title}</h1>
+      <p class="lead">{copy.subtitle}</p>
+      <div class="cta-row">
+        <a class="button" href={site.iosUrl}>{copy.primary}</a>
+        <a class="button secondary" href={site.androidUrl}>{copy.secondary}</a>
+      </div>
+      <div class="language-list">
+        {locales.map((locale) => (
+          <a class="pill" href={localePath(locale.tag, '/')}>{locale.nativeName}</a>
+        ))}
+      </div>
+    </div>
+    <div class="hero-card" aria-label="Fresh Start app preview">
+      <div class="phone">
+        <div class="screen">
+          <img src="/appicon.png" alt="" width="54" height="54" style="border-radius:12px" />
+          <h3 style="margin-top:22px">Fresh Start</h3>
+          <p class="muted">Your private breakup support companion</p>
+          <div class="chat">
+            <div class="bubble me">I want to text them right now.</div>
+            <div class="bubble">Pause for 90 seconds. What do you need from the message: comfort, closure, or relief from anxiety?</div>
+            <div class="bubble me">Relief from anxiety.</div>
+            <div class="bubble">Then let’s choose relief without reopening the wound. Start a no-contact check-in?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="shell">
+      <h2>Built for the hard moments after a breakup.</h2>
+      <div class="grid">
+        <article class="card"><h3>No-contact support</h3><p class="muted">Get through urges to text, call, check stories, or ask friends for updates.</p></article>
+        <article class="card"><h3>Late-night anxiety help</h3><p class="muted">Use grounding prompts and AI reflection when your thoughts get loud.</p></article>
+        <article class="card"><h3>Daily recovery path</h3><p class="muted">Small healing steps for grief, self-worth, attachment, and moving forward.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <h2>What are you struggling with today?</h2>
+      <div class="grid">
+        {['Should I text my ex?', 'How do I survive no contact?', 'Why do I feel worse at night?', 'How do I stop checking their profile?', 'Was the relationship toxic?', 'When will I feel normal again?'].map((item) => (
+          <a class="card" href={localePath(lang, '/blog/')} style="text-decoration:none"><h3>{item}</h3><p class="muted">Read practical guidance and open the app when you need real-time help.</p></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="shell">
+      <h2>{copy.blog}</h2>
+      <div class="blog-grid">
+        {articles.map((article) => (
+          <a class="card" href={localePath(lang, `/blog/${article.data.seoSlug}/`)} style="text-decoration:none">
+            <p class="eyebrow">{article.data.category}</p>
+            <h3>{article.data.title}</h3>
+            <p class="muted">{article.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer lang={lang} />

@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { localePath } from '../../data/site';
+
+const articles = (await getCollection('blog'))
+  .filter((entry) => entry.data.lang === 'en')
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+<BaseLayout title="Breakup Recovery Blog | Breakup Relief" description="Breakup recovery guides for no contact, texting your ex, anxiety, grief, self-worth, and healing after a breakup." path="/blog/">
+  <Header lang="en" />
+  <main class="shell section">
+    <p class="eyebrow">Breakup recovery blog</p>
+    <h1>Guides for the messy middle of healing.</h1>
+    <div class="blog-grid">
+      {articles.map((article) => (
+        <a class="card" href={localePath('en', `/blog/${article.data.seoSlug}/`)} style="text-decoration:none">
+          <p class="eyebrow">{article.data.category}</p>
+          <h3>{article.data.title}</h3>
+          <p class="muted">{article.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </main>
+  <Footer lang="en" />
+</BaseLayout>

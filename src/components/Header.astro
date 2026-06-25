@@ -1,0 +1,15 @@
+---
+import { localePath, site, type LocaleTag } from '../data/site';
+const { lang = 'en' } = Astro.props as { lang?: LocaleTag };
+---
+<header class="shell nav">
+  <a class="brand" href={localePath(lang, '/')}>
+    <img src="/appicon.png" alt="" width="36" height="36" />
+    <span>{site.name}</span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href={localePath(lang, '/blog/')}>Blog</a>
+    <a href={site.iosUrl}>iOS</a>
+    <a href={site.androidUrl}>Android</a>
+  </nav>
+</header>

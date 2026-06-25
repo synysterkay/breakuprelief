@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Home from '../../components/Home.astro';
+import { homeCopy, locales, site, type LocaleTag } from '../../data/site';
+
+export function getStaticPaths() {
+  return locales.filter((locale) => locale.tag !== 'en').map((locale) => ({ params: { lang: locale.tag } }));
+}
+
+const lang = Astro.params.lang as LocaleTag;
+const copy = homeCopy[lang];
+---
+<BaseLayout
+  title={`${site.name} | ${copy.eyebrow}`}
+  description={copy.subtitle}
+  lang={lang}
+  path={`/${lang}/`}
+>
+  <Home lang={lang} />
+</BaseLayout>

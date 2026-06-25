@@ -1,0 +1,29 @@
+name: Daily DeepSeek articles
+
+on:
+  schedule:
+    - cron: '18 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run generate:article
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      - run: npm run build
+      - name: Commit generated articles
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Add daily breakup recovery articles"
+          file_pattern: "src/content/blog/**/*.md"

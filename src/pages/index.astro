@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Home from '../components/Home.astro';
+import { site } from '../data/site';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: site.appName,
+  applicationCategory: 'HealthApplication',
+  operatingSystem: 'iOS, Android',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  downloadUrl: [site.iosUrl, site.androidUrl],
+};
+---
+<BaseLayout
+  title="Breakup Relief | AI Breakup Therapy Support"
+  description="Private AI breakup therapy support for no contact, late-night anxiety, grief, and healing after a breakup. Download Fresh Start for iOS and Android."
+  path="/"
+  schema={schema}
+>
+  <Home lang="en" />
+</BaseLayout>
